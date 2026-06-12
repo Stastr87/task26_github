@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	// Настройка отображения логов
+	log.SetFlags(log.Ldate | log.Ltime)
 
 	// Размер кольцевого буфера
 	const bufferSize int = 10
@@ -32,25 +34,25 @@ func main() {
 	listner.Start()
 
 	// Стадия отображения полученных данных
-	printStage := func(done <-chan bool, c <-chan []byte) <-chan []byte {
+	// printStage := func(done <-chan bool, c <-chan []byte) <-chan []byte {
 
-		outChan := make(chan []byte)
-		go func() {
-			for {
-				select {
-				case data := <-c:
-					str := string(data)
-					fmt.Println("printStage got:", str)
-					outChan <- data
-				case <-done:
-					return
+	// 	outChan := make(chan []byte)
+	// 	go func() {
+	// 		for {
+	// 			select {
+	// 			case data := <-c:
+	// 				str := string(data)
+	// 				fmt.Println("printStage got:", str)
+	// 				outChan <- data
+	// 			case <-done:
+	// 				return
 
-				}
-			}
+	// 			}
+	// 		}
 
-		}()
-		return outChan
-	}
+	// 	}()
+	// 	return outChan
+	// }
 
 	// стадия, фильтрации данных от шума в виде нечисловых данных
 	noiseFilterStage := func(done <-chan bool, c <-chan []byte) <-chan []byte {
@@ -180,7 +182,7 @@ func main() {
 	doneCh := listner.Stop()
 
 	pipeline := src.NewPipelineInt(doneCh,
-		printStage,
+		src.PrintStage,
 		noiseFilterStage,
 		negativeFilterStageInt,
 		specialFilterStageInt,
