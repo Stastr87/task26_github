@@ -1,0 +1,25 @@
+services:
+  datasource:
+    build: ./data-source
+    container_name: source
+    networks:
+      - app-network
+    ports:
+      - "8888:8888"
+    environment:
+      - GO_ENV=production
+
+  handler:
+    build: ./data-handler
+    container_name: handler
+    networks:
+      - app-network
+    depends_on:
+      - datasource
+    environment:
+      - DATASOURCE_HOST=datasource
+
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"dataSource/src"
+	"data-source/src"
 	"fmt"
 	"net"
 )
@@ -9,7 +9,7 @@ import (
 func main() {
 
 	// Создание сокета для отправки сообщений
-	const ADDR string = "127.0.0.1:8888"
+	const ADDR string = "0.0.0.0:8888"
 
 	listener, err := net.Listen("tcp", ADDR)
 	if err != nil {

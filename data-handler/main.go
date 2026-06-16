@@ -1,7 +1,7 @@
 package main
 
 import (
-	"dataHandler/src"
+	"data-handler/src"
 	"log"
 	"net"
 	"os"
